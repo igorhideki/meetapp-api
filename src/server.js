@@ -1,6 +1,3 @@
-import express from 'express';
+import app from './app';
 
-const server = express();
-console.log('listen in port 3333');
-
-server.listen(3333);
+app.listen(3333);
