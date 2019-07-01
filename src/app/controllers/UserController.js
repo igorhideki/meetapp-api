@@ -15,8 +15,6 @@ class UserController {
   }
 
   async update(req, res) {
-    console.log(req.headers.authorization);
-
     return res.json({ ok: true });
   }
 }
