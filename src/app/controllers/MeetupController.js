@@ -35,12 +35,6 @@ class MeetupController {
   }
 
   async update(req, res) {
-    const meetup = await Meetup.findByPk(req.params.id);
-
-    if (!meetup) {
-      return res.status(400).json({ error: 'This meetup not exists' });
-    }
-
     const scheme = Yup.object().shape({
       title: Yup.string(),
       description: Yup.string(),
@@ -50,6 +44,16 @@ class MeetupController {
 
     if (!(await scheme.isValid(req.body))) {
       return res.status(400).json({ error: 'Validation fails' });
+    }
+
+    const meetup = await Meetup.findByPk(req.params.id);
+
+    if (!meetup) {
+      return res.status(400).json({ error: 'This meetup not exists' });
+    }
+
+    if (req.userId !== meetup.user_id) {
+      return res.status(401).json({ error: 'Not authorized' });
     }
 
     const parseDate = req.body.date ? parseISO(req.body.date) : '';
