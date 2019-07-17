@@ -95,12 +95,28 @@ class MeetupController {
     }
 
     if (meetup.past) {
-      return res.status(400).json({ error: "Can't update past meetups." });
+      return res.status(400).json({ error: "Can't update past meetups" });
     }
 
     await meetup.update(req.body);
 
     return res.json(meetup);
+  }
+
+  async delete(req, res) {
+    const meetup = await Meetup.findByPk(req.params.id);
+
+    if (meetup.user_id !== req.userId) {
+      return res.status(401).json({ error: 'Not authorized' });
+    }
+
+    if (meetup.past) {
+      return res.status(400).json({ error: "Can't delete past meetups" });
+    }
+
+    await meetup.destroy();
+
+    return res.json();
   }
 }
 
