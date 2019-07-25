@@ -3,7 +3,8 @@ import { isSameMinute, format } from 'date-fns';
 import Subscription from '../models/Subscription';
 import Meetup from '../models/Meetup';
 import User from '../models/User';
-import Mail from '../../lib/Mail';
+import Queue from '../../lib/Queue';
+import SubscriptionMail from '../jobs/SubscriptionMail';
 
 class SubscriptionController {
   async store(req, res) {
@@ -60,17 +61,9 @@ class SubscriptionController {
 
     const user = await User.findByPk(req.userId);
 
-    await Mail.sendMail({
-      to: `${meetup.user.name} <${meetup.user.email}>`,
-      subject: 'Nova inscrição',
-      template: 'subscription',
-      context: {
-        organizer: meetup.user.name,
-        userName: user.name,
-        userEmail: user.email,
-        meetup: meetup.title,
-        date: format(meetup.date, "dd'/'MM'/'yyyy H:mm'h'"),
-      },
+    await Queue.add(SubscriptionMail.key, {
+      meetup,
+      user,
     });
 
     return res.json(subscription);
