@@ -23,7 +23,7 @@ class MeetupController {
       order: ['date'],
       limit,
       offset: limit * (page - 1),
-      attributes: ['title', 'description', 'location', 'date'],
+      attributes: ['title', 'description', 'location', 'date', 'past'],
       include: {
         model: User,
         as: 'user',
