@@ -1,4 +1,5 @@
-import { isSameMinute, format } from 'date-fns';
+import { isSameMinute } from 'date-fns';
+import { Op } from 'sequelize';
 
 import Subscription from '../models/Subscription';
 import Meetup from '../models/Meetup';
@@ -7,6 +8,22 @@ import Queue from '../../lib/Queue';
 import SubscriptionMail from '../jobs/SubscriptionMail';
 
 class SubscriptionController {
+  async index(req, res) {
+    const subscriptions = await Subscription.findAll({
+      where: { user_id: req.userId },
+      attributes: ['id'],
+      include: {
+        model: Meetup,
+        as: 'meetup',
+        where: { date: { [Op.gt]: new Date() } },
+        attributes: ['title', 'description', 'location', 'banner_id', 'date'],
+      },
+      order: [['meetup', 'date']],
+    });
+
+    return res.json(subscriptions);
+  }
+
   async store(req, res) {
     const meetupId = Number(req.params.meetupId);
     const meetup = await Meetup.findByPk(meetupId, {
