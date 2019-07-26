@@ -40,13 +40,14 @@ class MeetupController {
       description: Yup.string().required(),
       location: Yup.string().required(),
       date: Yup.date().required(),
+      banner_id: Yup.number().required(),
     });
 
     if (!(await scheme.isValid(req.body))) {
       return res.status(400).json({ error: 'Validation fails' });
     }
 
-    const { title, description, location, date } = req.body;
+    const { title, description, location, date, banner_id } = req.body;
     const dateParse = parseISO(date);
 
     if (isBefore(dateParse, new Date())) {
@@ -58,6 +59,7 @@ class MeetupController {
       description,
       location,
       date,
+      banner_id,
       user_id: req.userId,
     });
 
@@ -70,6 +72,7 @@ class MeetupController {
       description: Yup.string(),
       location: Yup.string(),
       date: Yup.date(),
+      banner_id: Yup.number(),
     });
 
     if (!(await scheme.isValid(req.body))) {
