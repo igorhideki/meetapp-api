@@ -109,6 +109,10 @@ class MeetupController {
   async delete(req, res) {
     const meetup = await Meetup.findByPk(req.params.id);
 
+    if (!meetup) {
+      return res.status(401).json({ error: 'Meetup not found' });
+    }
+
     if (meetup.user_id !== req.userId) {
       return res.status(401).json({ error: 'Not authorized' });
     }
