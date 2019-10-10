@@ -1,24 +1,25 @@
 import Meetup from '../models/Meetup';
 import User from '../models/User';
+import File from '../models/File';
 
 class OrganizingController {
   async index(req, res) {
     const meetups = await Meetup.findAll({
       where: { user_id: req.userId },
       order: ['date'],
-      attributes: [
-        'title',
-        'description',
-        'location',
-        'date',
-        'past',
-        'banner_id',
+      attributes: ['id', 'title', 'description', 'location', 'date', 'past'],
+      include: [
+        {
+          model: User,
+          as: 'user',
+          attributes: ['name', 'email'],
+        },
+        {
+          model: File,
+          as: 'banner',
+          attributes: ['id', 'path', 'url'],
+        },
       ],
-      include: {
-        model: User,
-        as: 'user',
-        attributes: ['name', 'email'],
-      },
     });
 
     return res.json(meetups);
