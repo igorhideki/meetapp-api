@@ -4,6 +4,7 @@ import { Op } from 'sequelize';
 
 import Meetup from '../models/Meetup';
 import User from '../models/User';
+import File from '../models/File';
 
 class MeetupController {
   async index(req, res) {
@@ -23,12 +24,19 @@ class MeetupController {
       order: ['date'],
       limit,
       offset: limit * (page - 1),
-      attributes: ['title', 'description', 'location', 'date', 'past'],
-      include: {
-        model: User,
-        as: 'user',
-        attributes: ['name'],
-      },
+      attributes: ['id', 'title', 'description', 'location', 'date', 'past'],
+      include: [
+        {
+          model: User,
+          as: 'user',
+          attributes: ['name'],
+        },
+        {
+          model: File,
+          as: 'banner',
+          attributes: ['id', 'path', 'url'],
+        },
+      ],
     });
 
     return res.json(meetups);
