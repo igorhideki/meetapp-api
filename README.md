@@ -24,6 +24,18 @@ Para executar a aplicação localmente é necessário ter instalado na máquina 
 
 4. Execute o comando `yarn queue` para subir a fila de envio de e-mail
 
+### Instruções extras
+
+Para que a aplicação funcione totalmente é necessário executar alguns containers utilizando **docker**
+
+* Container do postgres
+
+```docker run --name postgres -e POSTGRES_PASSWORD=<database_password> -p 5432:5432 -d postgres```
+
+* Container do redis
+
+```docker run --name redis -p 6379:6379 -d -t redis:alpine```
+
 ## Funcionalidades
 
 Abaixo estão as funcionalidades da API.
