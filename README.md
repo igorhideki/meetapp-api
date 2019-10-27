@@ -45,3 +45,8 @@ Abaixo estão as funcionalidades da API.
 * Inscrição no meetup
 * Listagem de meetups
 * Listagem de inscrições
+
+## Links
+
+* [Meetapp Web](https://github.com/igorhideki/meetapp-web)
+* [Meetapp Mobile](https://github.com/igorhideki/meetapp-mobile)
