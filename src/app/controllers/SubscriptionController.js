@@ -102,6 +102,26 @@ class SubscriptionController {
 
     return res.json(subscription);
   }
+
+  async delete(req, res) {
+    const subscription = await Subscription.findByPk(req.params.id);
+
+    if (!subscription) {
+      return res.status(401).json({ error: 'Subscription not found' });
+    }
+
+    if (subscription.user_id !== req.userId) {
+      return res.status(401).json({ error: 'Not authorized' });
+    }
+
+    if (subscription.past) {
+      return res.status(400).json({ error: "Can't delete past subscriptions" });
+    }
+
+    await subscription.destroy();
+
+    return res.json();
+  }
 }
 
 export default new SubscriptionController();
