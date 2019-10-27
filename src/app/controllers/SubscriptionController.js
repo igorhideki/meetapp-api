@@ -4,6 +4,7 @@ import { Op } from 'sequelize';
 import Subscription from '../models/Subscription';
 import Meetup from '../models/Meetup';
 import User from '../models/User';
+import File from '../models/File';
 import Queue from '../../lib/Queue';
 import SubscriptionMail from '../jobs/SubscriptionMail';
 
@@ -17,6 +18,18 @@ class SubscriptionController {
         as: 'meetup',
         where: { date: { [Op.gt]: new Date() } },
         attributes: ['title', 'description', 'location', 'banner_id', 'date'],
+        include: [
+          {
+            model: User,
+            as: 'user',
+            attributes: ['name'],
+          },
+          {
+            model: File,
+            as: 'banner',
+            attributes: ['id', 'path', 'url'],
+          },
+        ],
       },
       order: [['meetup', 'date']],
     });
