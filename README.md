@@ -2,7 +2,7 @@
 
 Meetapp é uma aplicação agregadora de eventos (meetups) para desenvolvedores.
 
-A Meetapp API foi desenvolvida usando [Node.js](https://nodejs.org) e [Express](https://expressjs.com) para servir a aplicação Web e Mobile.
+A Meetapp API foi desenvolvida utilizando [Node.js](https://nodejs.org) e [Express](https://expressjs.com) para servir a aplicação Web e Mobile.
 
 Outras tecnologias utilizadas na API:
 * PostgreSQL
