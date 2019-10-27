@@ -36,6 +36,10 @@ class SubscriptionController {
       ],
     });
 
+    if (!meetup) {
+      return res.status(400).json({ error: 'This meetup is not exists' });
+    }
+
     if (meetup.past) {
       return res.status(400).json({ error: "Can't subscribe in meetup past" });
     }
