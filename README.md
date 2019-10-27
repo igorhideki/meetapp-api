@@ -24,7 +24,6 @@ Para executar a aplicação localmente é necessário ter instalado na máquina 
 
 4. Execute o comando `yarn queue` para subir a fila de envio de e-mail
 
-
 ## Funcionalidades
 
 Abaixo estão as funcionalidades da API.
@@ -34,4 +33,3 @@ Abaixo estão as funcionalidades da API.
 * Inscrição no meetup
 * Listagem de meetups
 * Listagem de inscrições
-
