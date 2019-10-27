@@ -9,6 +9,7 @@ import File from '../models/File';
 class MeetupController {
   async index(req, res) {
     const { page = 1, date } = req.query;
+    const auxOffset = page > 1 ? 1 : 0;
     const parseDate = parseISO(date);
     const limit = 10;
     const where = {};
@@ -22,8 +23,9 @@ class MeetupController {
     const meetups = await Meetup.findAll({
       where,
       order: ['date'],
+      offset: (page - 1) * limit + auxOffset,
       limit,
-      offset: limit * (page - 1),
+      subQuery: false,
       attributes: ['id', 'title', 'description', 'location', 'date', 'past'],
       include: [
         {
